@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-model APIKeys {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+model ApiKey {
+  id        String   @id @default(uuid())
   key       String   @unique
   createdAt DateTime @default(now())
 }
