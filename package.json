@@ -1,0 +1,29 @@
+{
+  "name": "steamcmd-api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prisma:studio": "npx prisma studio",
+    "prisma:format": "npx prisma format",
+    "prisma:push": "npx prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.3.1",
+    "@sentry/cli": "^2.5.2",
+    "@sentry/nextjs": "^7.13.0",
+    "@sentry/tracing": "^7.13.0",
+    "cross-env": "^7.0.3",
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "eslint": "8.23.1",
+    "eslint-config-next": "12.3.1",
+    "prisma": "^4.3.1"
+  }
+}
