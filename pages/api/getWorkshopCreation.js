@@ -48,8 +48,12 @@ async function handler(req, res) {
     await steamCMD.downloadWorkshopCreation("573090", workshopId)
 
     const vehicleFilePath = path.resolve(__dirname, `../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`);
+    const vehicleFolderPath = path.resolve(__dirname, `../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/`);
+
     await waitForFile(vehicleFilePath, 60000);
     const fileData = await fs.readFileSync(vehicleFilePath);
+
+    await fs.rmSync(vehicleFolderPath, { recursive: true, force: true });
 
     // parse XML to a JS Object
     const parser = new XMLParser({
@@ -60,9 +64,13 @@ async function handler(req, res) {
     const vehicleXML = await parser.parse(fileData);
     res.status(200).send({ message: "OK", vehicleXML })
   } catch (err) {
-    console.error(err);
-    captureException(err);
-    res.status(500).send({ message: "Internal server error", error: err })
+    if (err === "Timeout reached") {
+      res.status(500).send({ message: "Waiting for vehicle file timed out" })
+    } else {
+      console.error(err);
+      captureException(err);
+      res.status(500).send({ message: "Internal server error", error: err })
+    }
   }
 }
 
