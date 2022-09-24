@@ -44,11 +44,9 @@ export class SteamCMDInterface {
       }
 
       if (this.platform === "linux") {
-        console.log(`linux detected, executing chmod +x ./${this.cmd}`)
-        const output = await exec("chmod", ["+x", `./${this.cmd}`])
-        console.log(output.toString())
+        await exec("chmod", ["+x", `./${this.cmd}`])
       }
-      await exec("sh", [`./${this.cmd}`, "+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
+      await exec(`./${this.cmd}`, ["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
 
       return true;
     } catch(err) {
