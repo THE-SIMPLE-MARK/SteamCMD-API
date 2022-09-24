@@ -55,7 +55,7 @@ export class SteamCMDInterface {
         const output4 = await exec("find", ["./", "-name", "steamcmd.sh"])
         console.log(output4.toString())
       }
-      await exec(`${this.cmd}`, ["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
+      await exec(`./${this.cmd}`, ["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
 
       return true;
     } catch(err) {
