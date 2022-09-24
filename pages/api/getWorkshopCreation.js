@@ -1,7 +1,7 @@
 import { captureException, withSentry } from "@sentry/nextjs";
 import authenticateAPIKey from "/utils/authenticateAPIKey";
 import { XMLParser } from "fast-xml-parser";
-import { SteamCMD } from "steamcmd-node";
+import { SteamCMDInterface } from "/utils/steamCMDInterface.js";
 import fs from "fs";
 import path from "path";
 import fetch, { FormData } from "node-fetch";
@@ -43,24 +43,20 @@ async function handler(req, res) {
 
   try {
     // download the creation to check for glitches
-    const steamcmd = new SteamCMD()
-    const steamCmdArgs = [
-      `+workshop_download_item 573090 ${workshopId}`,
-      "+validate"
-    ]
-    await steamcmd.execRaw(steamCmdArgs)
+    const steamCMD = await new SteamCMDInterface();
+    await steamCMD.downloadWorkshopCreation("573090", workshopId).then(async () => {
+      // open vehicle file
+      const fileData = await fs.readFileSync(path.resolve(__dirname, `../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`))
 
-    // open vehicle file
-    const fileData = fs.readFileSync(path.resolve(__dirname, `../../files/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`))
+      // parse XML to a JS Object
+      const parser = new XMLParser({
+        ignoreAttributes: false,
+        attributeNamePrefix : "",
+      });
+      const vehicleXML = await parser.parse(fileData);
 
-    // parse XML to a JS Object
-    const parser = new XMLParser({
-      ignoreAttributes: false,
-      attributeNamePrefix : "",
-    });
-    const vehicleXML = await parser.parse(fileData);
-
-    res.status(200).send({ message: "OK", vehicleXML })
+      res.status(200).send({ message: "OK", vehicleXML })
+    })
   } catch (err) {
     console.error(err);
     captureException(err);

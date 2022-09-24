@@ -49,4 +49,4 @@ yarn-error.log*
 sentry.properties
 
 # SteamCMD files
-files
+SteamCMD
