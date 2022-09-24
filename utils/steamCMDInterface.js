@@ -47,6 +47,7 @@ export class SteamCMDInterface {
         console.log("linux detected, executing ls -la...")
         const output = await exec("ls", ["-la"])
         console.log(output.toString())
+        console.log(`Running steamCMD like this: ${this.cmd} ${["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"].join(" ")}`)
       }
       await exec(`${this.cmd}`, ["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
 
