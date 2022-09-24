@@ -48,6 +48,8 @@ export class SteamCMDInterface {
         const output = await exec("ls", ["-la"])
         console.log(output.toString())
         console.log(`Running steamCMD like this: ${this.cmd} ${["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"].join(" ")}`)
+        const output2 = await exec("tree")
+        console.log(output2.toString())
       }
       await exec(`${this.cmd}`, ["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
 
