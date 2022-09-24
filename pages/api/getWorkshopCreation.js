@@ -47,6 +47,7 @@ async function handler(req, res) {
     // download the creation to check for glitches
     const steamCMD = await new SteamCMDInterface();
     await steamCMD.downloadWorkshopCreation("573090", workshopId)
+    console.log("Exited out of child process, waiting for file...")
 
     const vehicleFilePath = path.resolve(__dirname, `../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`);
     const vehicleFolderPath = path.resolve(__dirname, `../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/`);
