@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync } from "fs";
 import path from "path";
 import { decompressFile, downloadFile, rootFolder } from "./steamCMDUtils.js";
-import { spawn } from "child_process";
+import exec from "await-spawn";
 
 export class SteamCMDInterface {
   downloadLinks = {
@@ -43,9 +43,11 @@ export class SteamCMDInterface {
         await this.downloadCMD();
       }
 
-      return await spawn(`${this.cmd}`, ["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
-    } catch(e) {
-      throw e;
+      await exec(`${this.cmd}`, ["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
+
+      return true;
+    } catch(err) {
+      if (err.code !== 7) throw err;
     }
   }
 }

@@ -43,20 +43,22 @@ async function handler(req, res) {
 
   try {
     // download the creation to check for glitches
+    console.log("init steamCMD")
     const steamCMD = await new SteamCMDInterface();
-    await steamCMD.downloadWorkshopCreation("573090", workshopId).then(async () => {
-      // open vehicle file
-      const fileData = await fs.readFileSync(path.resolve(__dirname, `../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`))
+    await steamCMD.downloadWorkshopCreation("573090", workshopId)
+    console.log("Download finished")
 
-      // parse XML to a JS Object
-      const parser = new XMLParser({
-        ignoreAttributes: false,
-        attributeNamePrefix : "",
-      });
-      const vehicleXML = await parser.parse(fileData);
+    // open vehicle file
+    const fileData = await fs.readFileSync(path.resolve(__dirname, `../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`))
+    // parse XML to a JS Object
 
-      res.status(200).send({ message: "OK", vehicleXML })
-    })
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+      attributeNamePrefix : "",
+    });
+
+    const vehicleXML = await parser.parse(fileData);
+    res.status(200).send({ message: "OK", vehicleXML })
   } catch (err) {
     console.error(err);
     captureException(err);
