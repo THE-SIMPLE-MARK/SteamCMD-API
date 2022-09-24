@@ -1,5 +1,3 @@
-import { prisma } from "/prisma/prisma";
-
 /**
  * Authenticates an API key
  * @param key the API key
@@ -10,12 +8,5 @@ export default async function authenticateAPIKey(key) {
   if (!key.startsWith("Bearer")) return false;
 
   const apiKey = key.split("Bearer ")[1]
-  const apiKeyData = await prisma.apiKey.findFirst({
-    where: {
-      key: apiKey,
-    }
-  })
-  if (!apiKeyData) return false;
-
-  return true;
+  return process.env.API_KEYS.includes(apiKey);
 }
