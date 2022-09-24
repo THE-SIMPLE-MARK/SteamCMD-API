@@ -39,13 +39,17 @@ export class SteamCMDInterface {
 
   async downloadWorkshopCreation(gameId, workshopId) {
     try {
+      console.log("Starting...")
       if (!this.cmd) {
+        console.log("CMD not found, downloading...")
         await this.downloadCMD();
       }
 
       if (this.platform === "linux") {
+        console.log("Linux detected, chmodding executable.")
         await exec("chmod", ["+x", `./${this.cmd}`])
       }
+      console.log("Downloading workshop item...")
       await exec(`./${this.cmd}`, ["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
 
       return true;
