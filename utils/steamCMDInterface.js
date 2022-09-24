@@ -44,15 +44,9 @@ export class SteamCMDInterface {
       }
 
       if (this.platform === "linux") {
-        console.log("linux detected, executing ls -la...")
-        const output = await exec("ls", ["-la"])
-        console.log("Output of ls -la", output.toString())
-        console.log(`Running steamCMD like this: ./${this.cmd} ${["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"].join(" ")}`)
-        const output2 = await exec("ls", ["-r"])
-        console.log("Output of ls -r", output2.toString())
-        const output3 = await exec("find", ["./", "-name", "steamcmd.sh"])
-        console.log("Output of find ./ -name steamcmd.sh", output3.toString())
-        console.log("================")
+        console.log(`linux detected, executing chmod +x ./${this.cmd}`)
+        const output = await exec("chmod", ["+x", `./${this.cmd}`])
+        console.log(output.toString())
       }
       await exec("sh", [`./${this.cmd}`, "+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
 
