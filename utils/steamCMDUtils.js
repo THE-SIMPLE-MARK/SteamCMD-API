@@ -37,12 +37,15 @@ export async function waitForFile(path, timeout) {
   return new Promise(function (resolve, reject) {
     let cycles = 0;
     const timer = setInterval(function () {
+      console.log(`Waiting for file on path ${path}, cycle`, cycles)
       if (timeout / 500 === cycles) {
         clearInterval(timer);
+        console.log("Timeout reached")
         return reject("Timeout reached");
       }
 
       if (existsSync(path)) {
+        console.log("File detected")
         clearInterval(timer);
         return resolve();
       }
