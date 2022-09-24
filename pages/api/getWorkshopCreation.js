@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import fetch, { FormData } from "node-fetch";
 import { fileURLToPath } from "url";
+import { checkExistsWithTimeout } from "../../utils/steamCMDUtils";
 
 const fileName = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileName);
@@ -48,7 +49,8 @@ async function handler(req, res) {
     await steamCMD.downloadWorkshopCreation("573090", workshopId)
     console.log("Download finished")
 
-    // open vehicle file
+    await checkExistsWithTimeout("../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/vehicle.xml", "60000");
+
     const fileData = await fs.readFileSync(path.resolve(__dirname, `../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`))
     // parse XML to a JS Object
 
