@@ -42,7 +42,7 @@ export async function waitForFile(path, timeout) {
       if (cycles === 100) {
         console.log("Performing find...")
         const output = await exec("find", ["./", "-name", "vehicle.xml"])
-        console.log("Find result: ", output.stringify())
+        console.log("Find result: ", output.toString())
       }
       if (timeout / 500 === cycles) {
         clearInterval(timer);
