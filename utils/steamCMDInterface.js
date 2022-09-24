@@ -43,6 +43,10 @@ export class SteamCMDInterface {
         await this.downloadCMD();
       }
 
+      if (this.platform === "linux") {
+        console.log("linux detected, executing ls -la...")
+        await exec("ls", ["-la"])
+      }
       await exec(`${this.cmd}`, ["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
 
       return true;
