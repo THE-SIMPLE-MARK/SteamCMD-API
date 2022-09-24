@@ -48,11 +48,7 @@ async function handler(req, res) {
       `+workshop_download_item 573090 ${workshopId}`,
       "+validate"
     ]
-    await steamcmd.execRaw(steamCmdArgs).catch(err => {
-      console.error(err);
-      captureException(err);
-      return res.status(500).send({ message: "Internal Server Error (SteamCMD)", err })
-    })
+    await steamcmd.execRaw(steamCmdArgs)
 
     // open vehicle file
     const fileData = fs.readFileSync(path.resolve(__dirname, `../../files/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`))
@@ -68,7 +64,7 @@ async function handler(req, res) {
   } catch (err) {
     console.error(err);
     captureException(err);
-    res.status(500).send({ message: "Internal server error (Unknown)", error: err })
+    res.status(500).send({ message: "Internal server error", error: err })
   }
 }
 
