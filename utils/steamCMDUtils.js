@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createWriteStream, watch, access } from "fs";
+import { createWriteStream, existsSync } from "fs";
 import decompress from "decompress";
 import path from "path";
 
@@ -27,30 +27,26 @@ export async function downloadFile(fileUrl, filename) {
   });
 }
 
-export async function checkExistsWithTimeout(filePath, timeout) {
+/**
+ * Waits for a file to be created
+ * @param path the path to check for
+ * @param timeout the failsafe timeout
+ * @returns {Promise<unknown>} when the directory was created
+ */
+export async function waitForFile(path, timeout) {
   return new Promise(function (resolve, reject) {
-
-    const timer = setTimeout(function () {
-      watcher.close();
-      reject(new Error("File did not exists and was not created during the timeout."));
-    }, timeout);
-
-    access(filePath, fs.constants.R_OK, function (err) {
-      if (!err) {
-        clearTimeout(timer);
-        watcher.close();
-        resolve();
+    let cycles = 0;
+    const timer = setInterval(function () {
+      if (timeout / 500 === cycles) {
+        clearInterval(timer);
+        return reject("Timeout reached");
       }
-    });
 
-    const dir = path.dirname(filePath);
-    const basename = path.basename(filePath);
-    const watcher = watch(dir, function (eventType, filename) {
-      if (eventType === "rename" && filename === basename) {
-        clearTimeout(timer);
-        watcher.close();
-        resolve();
+      if (existsSync(path)) {
+        clearInterval(timer);
+        return resolve();
       }
-    });
+      cycles++;
+    }, 500);
   });
 }

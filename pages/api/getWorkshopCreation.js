@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 import fetch, { FormData } from "node-fetch";
 import { fileURLToPath } from "url";
-import { checkExistsWithTimeout } from "../../utils/steamCMDUtils";
+import { waitForFile } from "/utils/steamCMDUtils";
 
 const fileName = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileName);
@@ -44,16 +44,14 @@ async function handler(req, res) {
 
   try {
     // download the creation to check for glitches
-    console.log("init steamCMD")
     const steamCMD = await new SteamCMDInterface();
     await steamCMD.downloadWorkshopCreation("573090", workshopId)
-    console.log("Download finished")
 
-    await checkExistsWithTimeout("../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/vehicle.xml", "60000");
+    const vehicleFilePath = path.resolve(__dirname, `../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`);
+    await waitForFile(vehicleFilePath, 60000);
+    const fileData = await fs.readFileSync(vehicleFilePath);
 
-    const fileData = await fs.readFileSync(path.resolve(__dirname, `../../SteamCMD/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`))
     // parse XML to a JS Object
-
     const parser = new XMLParser({
       ignoreAttributes: false,
       attributeNamePrefix : "",
@@ -72,6 +70,7 @@ async function handler(req, res) {
 export const config = {
   api: {
     externalResolver: true,
+    responseLimit: false,
   },
 }
 
