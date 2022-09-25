@@ -43,11 +43,8 @@ export async function waitForFile(path, timeout) {
         console.log("Performing find and tree...")
         const output = await exec("find", ["./SteamCMD", "-name", "vehicle.xml"])
         console.log("Find result: ", output.toString())
-        const output2 = await exec("tree")
+        const output2 = await exec("tree", ["./SteamCMD"])
         console.log(output2.toString())
-        console.log("=============")
-        const output3 = await exec("tree", ["-f"])
-        console.log(output3.toString())
       }
       if (timeout / 500 === cycles) {
         console.log("Timeout reached")
