@@ -62,7 +62,7 @@ async function handler(req, res) {
     });
 
     const vehicleXML = await parser.parse(fileData);
-    console.log("Parsing XML")
+
     res.status(200).send({ message: "OK", vehicleXML })
   } catch (err) {
     if (err === "Timeout reached") {
