@@ -2,6 +2,7 @@ import axios from "axios";
 import { createWriteStream, existsSync } from "fs";
 import decompress from "decompress";
 import path from "path";
+import exec from "await-spawn";
 
 export const rootFolder = path.join("./SteamCMD");
 
@@ -38,6 +39,11 @@ export async function waitForFile(path, timeout) {
     let cycles = 0;
     const timer = setInterval(async function () {
       console.log(`Waiting for file on path ${path}, cycle`, cycles)
+      if (cycles === 100) {
+        console.log("Performing find...")
+        const output = await exec("find", ["./SteamCMD", "-name", "vehicle.xml"])
+        console.log("Find result: ", output.toString())
+      }
       if (timeout / 500 === cycles) {
         console.log("Timeout reached")
         clearInterval(timer);

@@ -55,7 +55,7 @@ export class SteamCMDInterface {
         await exec("chmod", ["+x", `./${this.cmd}`])
       }
       console.log("Downloading workshop item...")
-      await exec(`./${this.cmd}`, ["+login", "anonymous", "+force_install_dir", `./${this.cmd}`, "+workshop_download_item", gameId, workshopId, "+quit"]);
+      await exec(`./${this.cmd}`, ["+login", "anonymous", "+workshop_download_item", gameId, workshopId, "+quit"]);
 
       return true;
     } catch(err) {
