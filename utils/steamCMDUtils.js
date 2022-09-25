@@ -35,13 +35,13 @@ export async function downloadFile(fileUrl, filename) {
  * @returns {Promise<unknown>} when the directory was created
  */
 export async function waitForFile(path, timeout) {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     let cycles = 0;
     const timer = setInterval(async function () {
       console.log(`Waiting for file on path ${path}, cycle`, cycles)
       if (cycles === 100) {
         console.log("Performing find...")
-        const output = await exec("find", ["./", "-name", "vehicle.xml"])
+        const output = await exec("find", ["./SteamCMD", "-name", "vehicle.xml"])
         console.log("Find result: ", output.toString())
       }
       if (timeout / 500 === cycles) {
