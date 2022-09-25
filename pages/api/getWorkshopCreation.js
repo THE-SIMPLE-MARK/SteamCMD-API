@@ -43,7 +43,6 @@ async function handler(req, res) {
   if (steamVehicleData.consumer_app_id !== 573090) return res.status(400).send({ message: "The workshop creation is not from Stormworks." })
 
   try {
-    console.log("Start download")
     // download the creation to check for glitches
     const steamCMD = await new SteamCMDInterface();
     await steamCMD.downloadWorkshopCreation("573090", workshopId)
@@ -51,13 +50,10 @@ async function handler(req, res) {
     const vehicleFilePath = path.resolve(__dirname, `../../SteamCMD/output/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`);
     const vehicleFolderPath = path.resolve(__dirname, `../../SteamCMD/output/steamapps/workshop/content/573090/${workshopId}/`);
 
-    console.log("Exited out of child process, waiting for file on the following path: ", vehicleFilePath)
     await waitForFile(vehicleFilePath, 60000);
-    console.log(`Download finished! Path: ${vehicleFilePath}`);
     const fileData = await fs.readFileSync(vehicleFilePath);
 
     await fs.rmSync(vehicleFolderPath, { recursive: true, force: true });
-    console.log("File deleted")
 
     // parse XML to a JS Object
     const parser = new XMLParser({
