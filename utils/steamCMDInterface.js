@@ -21,11 +21,6 @@ export class SteamCMDInterface {
     this.fileName = this.downloadLink.url.split("/")[this.downloadLink.url.split("/").length - 1];
   }
 
-  get outputPath() {
-    if (this.platform === "linux") return `../../SteamCMD/steamcmd.sh/steamapps/workshop/content/`
-    else return `../../SteamCMD/steamapps/workshop/content/`
-  }
-
   async downloadCMD() {
     const rootExists = existsSync(rootFolder);
     if (!rootExists) await mkdirSync(rootFolder);

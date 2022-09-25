@@ -48,8 +48,8 @@ async function handler(req, res) {
     const steamCMD = await new SteamCMDInterface();
     await steamCMD.downloadWorkshopCreation("573090", workshopId)
 
-    const vehicleFilePath = path.resolve(__dirname, `${steamCMD.outputPath}${workshopId}/vehicle.xml`);
-    const vehicleFolderPath = path.resolve(__dirname, `${steamCMD.outputPath}${workshopId}/`);
+    const vehicleFilePath = path.resolve(__dirname, `../../SteamCMD/output/steamapps/workshop/content/573090/${workshopId}/vehicle.xml`);
+    const vehicleFolderPath = path.resolve(__dirname, `../../SteamCMD/output/steamapps/workshop/content/573090/${workshopId}/`);
 
     console.log("Exited out of child process, waiting for file on the following path: ", vehicleFilePath)
     await waitForFile(vehicleFilePath, 60000);
