@@ -45,8 +45,8 @@ export async function waitForFile(path, timeout) {
         console.log("Find result: ", output.toString())
       }
       if (timeout / 500 === cycles) {
-        clearInterval(timer);
         console.log("Timeout reached")
+        clearInterval(timer);
         return reject("Timeout reached");
       }
 
