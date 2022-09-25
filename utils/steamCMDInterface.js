@@ -41,11 +41,11 @@ export class SteamCMDInterface {
     try {
       if (!this.cmd) {
         await this.downloadCMD();
+        if (this.platform === "linux") {
+          await exec("chmod", ["+x", `./${this.cmd}`])
+        }
       }
 
-      if (this.platform === "linux") {
-        await exec("chmod", ["+x", `./${this.cmd}`])
-      }
       await exec(`./${this.cmd}`, ["+login", "anonymous", "+force_install_dir", `./output`, "+workshop_download_item", gameId, workshopId, "+quit"]);
 
       return true;
