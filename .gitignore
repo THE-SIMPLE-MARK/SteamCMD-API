@@ -48,5 +48,6 @@ yarn-error.log*
 .sentryclirc
 sentry.properties
 
+
 # SteamCMD files
 SteamCMD
