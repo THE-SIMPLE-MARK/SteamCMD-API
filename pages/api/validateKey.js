@@ -1,8 +1,8 @@
-import { withSentry } from "@sentry/nextjs";
-import authenticateAPIKey from "/utils/authenticateAPIKey";
+import { withSentry } from "@sentry/nextjs"
+import authenticateAPIKey from "/utils/authenticateAPIKey"
 
 async function handler(req, res) {
-  const valid = await authenticateAPIKey(req?.headers?.authorization);
+  const valid = await authenticateAPIKey(req?.headers?.authorization)
   res.status(200).send({ message: "OK", valid })
 }
 
@@ -13,4 +13,4 @@ export const config = {
   },
 }
 
-export default withSentry(handler);
+export default withSentry(handler)

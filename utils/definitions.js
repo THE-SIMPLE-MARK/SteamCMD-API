@@ -1,34 +1,34 @@
 export const workbenchSizes = {
-  "TRAIN_DEPOT": {
-    "dimensionX": 97,
-    "dimensionY": 21,
-    "dimensionZ": 17,
+  TRAIN_DEPOT: {
+    dimensionX: 97,
+    dimensionY: 21,
+    dimensionZ: 17,
   },
-  "SMALL_DOCK": {
-    "dimensionX": 57,
-    "dimensionY": 27,
-    "dimensionZ": 27,
+  SMALL_DOCK: {
+    dimensionX: 57,
+    dimensionY: 27,
+    dimensionZ: 27,
   },
-  "SMALL_HANGAR": {
-    "dimensionX": 71,
-    "dimensionY": 21,
-    "dimensionZ": 63,
+  SMALL_HANGAR: {
+    dimensionX: 71,
+    dimensionY: 21,
+    dimensionZ: 63,
   },
-  "MEDIUM_HANGAR": {
-    "dimensionX": 137,
-    "dimensionY": 37,
-    "dimensionZ": 143,
+  MEDIUM_HANGAR: {
+    dimensionX: 137,
+    dimensionY: 37,
+    dimensionZ: 143,
   },
-  "MEDIUM_DOCK": {
-    "dimensionX": 227,
-    "dimensionY": 43,
-    "dimensionZ": 79,
+  MEDIUM_DOCK: {
+    dimensionX: 227,
+    dimensionY: 43,
+    dimensionZ: 79,
   },
-  "HUGE": {
-    "dimensionX": 9999,
-    "dimensionY": 9999,
-    "dimensionZ": 9999,
-  }
+  HUGE: {
+    dimensionX: 9999,
+    dimensionY: 9999,
+    dimensionZ: 9999,
+  },
 }
 
 export const illegalProperties = {

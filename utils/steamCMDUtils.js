@@ -1,30 +1,30 @@
-import axios from "axios";
-import { createWriteStream, existsSync } from "fs";
-import decompress from "decompress";
-import path from "path";
+import axios from "axios"
+import { createWriteStream, existsSync } from "fs"
+import decompress from "decompress"
+import path from "path"
 
-export const rootFolder = path.join("./SteamCMD");
+export const rootFolder = path.join("./SteamCMD")
 
 export async function decompressFile(name) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     decompress(path.join(rootFolder, name), rootFolder).then(files => {
-      resolve(files);
+      resolve(files)
     })
   })
 }
 
 export async function downloadFile(fileUrl, filename) {
-  const writer = createWriteStream(path.join(rootFolder, filename));
+  const writer = createWriteStream(path.join(rootFolder, filename))
 
   const { data } = await axios({
     method: "get",
     url: fileUrl,
     responseType: "stream",
-  });
-  await data.pipe(writer);
-  return new Promise((resolve) => {
-    writer.on("finish", resolve);
-  });
+  })
+  await data.pipe(writer)
+  return new Promise(resolve => {
+    writer.on("finish", resolve)
+  })
 }
 
 /**
@@ -35,19 +35,19 @@ export async function downloadFile(fileUrl, filename) {
  */
 export async function waitForFile(path, timeout) {
   return new Promise((resolve, reject) => {
-    let cycles = 0;
+    let cycles = 0
     const timer = setInterval(async function () {
       if (timeout / 500 === cycles) {
-        clearInterval(timer);
-        return reject("Timeout reached");
+        clearInterval(timer)
+        return reject("Timeout reached")
       }
 
       if (existsSync(path)) {
         console.log("File detected")
-        clearInterval(timer);
-        return resolve();
+        clearInterval(timer)
+        return resolve()
       }
-      cycles++;
-    }, 500);
-  });
+      cycles++
+    }, 500)
+  })
 }

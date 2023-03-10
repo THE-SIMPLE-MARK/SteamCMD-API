@@ -1,16 +1,16 @@
 /** @type {import('next').NextConfig} */
-const { withSentryConfig } = require('@sentry/nextjs');
+const { withSentryConfig } = require("@sentry/nextjs")
 
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  webpack: (config) => {
-    config.experiments = { ...config.experiments, ...{ topLevelAwait: true }};
-    return config;
+  webpack: config => {
+    config.experiments = { ...config.experiments, ...{ topLevelAwait: true } }
+    return config
   },
   sentry: {
-    hideSourceMaps: true
-  }
+    hideSourceMaps: true,
+  },
 }
 
 const sentryWebpackPluginOptions = {
@@ -20,9 +20,9 @@ const sentryWebpackPluginOptions = {
   //   release, url, org, project, authToken, configFile, stripPrefix,
   //   urlPrefix, include, ignore
 
-  silent: true // Suppresses all logs
+  silent: true, // Suppresses all logs
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.
-};
+}
 
-module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);
+module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions)
